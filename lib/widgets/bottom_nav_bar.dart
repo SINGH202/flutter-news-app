@@ -40,7 +40,7 @@ class BottomNavBar extends StatelessWidget {
                 margin: const EdgeInsets.only(right: 50),
                 child: IconButton(
                   onPressed: () {
-                    print("No profile screen.");
+                    Navigator.pushNamed(context, SignUpScreen.routeName);
                   },
                   icon: const Icon(Icons.person),
                 ),

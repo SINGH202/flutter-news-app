@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:news/models/article_model.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/image_container.dart';
-
+import 'package:http/http.dart';
 import '../widgets/bottom_nav_bar.dart';
 
 class DiscoverScreen extends StatelessWidget {
@@ -51,6 +54,7 @@ class _CategoryNews extends StatelessWidget {
   Widget build(BuildContext context) {
     final articles = Article.articles;
     return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         TabBar(
           isScrollable: true,
@@ -70,92 +74,112 @@ class _CategoryNews extends StatelessWidget {
               .toList(),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height * 0.5,
           child: TabBarView(
               children: tabs
-                  .map(
-                    (e) => ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: articles.length,
-                      itemBuilder: ((context, index) {
-                        return InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(
-                                context, ArticleScreen.routeName,
-                                arguments: articles[index]);
-                          },
-                          child: Row(
-                            children: [
-                              ImageContainer(
-                                width: 80,
-                                height: 80,
-                                margin: const EdgeInsets.all(10),
-                                borderRadius: 5,
-                                imageUrl: articles[index].imageUrl,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                  .map((e) => FutureBuilder(
+                      future: getData(e),
+                      builder: (context, spanshot) {
+                        if (spanshot.hasData) {
+                          return ListView.builder(
+                            shrinkWrap: false,
+                            scrollDirection: Axis.vertical,
+                            itemCount: spanshot.data?.length,
+                            itemBuilder: ((context, index) {
+                              return InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(
+                                      context, ArticleScreen.routeName,
+                                      arguments: spanshot.data?[index]);
+                                },
+                                child: Row(
                                   children: [
-                                    Text(
-                                      articles[index].title,
-                                      maxLines: 2,
-                                      overflow: TextOverflow.clip,
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyLarge!
-                                          .copyWith(
-                                            fontWeight: FontWeight.bold,
+                                    ImageContainer(
+                                      width: 80,
+                                      height: 80,
+                                      margin: const EdgeInsets.all(10),
+                                      borderRadius: 5,
+                                      imageUrl: spanshot.data?[index]
+                                              ?["urlToImage"] ??
+                                          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019",
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            spanshot.data?[index]?["title"] ??
+                                                "Title",
+                                            maxLines: 2,
+                                            overflow: TextOverflow.clip,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                  fontWeight: FontWeight.bold,
+                                                ),
                                           ),
+                                          const SizedBox(
+                                            height: 10,
+                                          ),
+                                          Row(
+                                            children: [
+                                              const Icon(
+                                                Icons.schedule,
+                                                size: 18,
+                                              ),
+                                              const SizedBox(
+                                                width: 5,
+                                              ),
+                                              Text(
+                                                '${DateTime.now().difference(DateTime.parse(spanshot.data?[index]?["publishedAt"])).inHours} hours ago',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                              const SizedBox(
+                                                width: 20,
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.schedule,
-                                          size: 18,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          '${DateTime.now().difference(articles[index].createdAt).inHours} hours ago',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodySmall,
-                                        ),
-                                        const SizedBox(
-                                          width: 20,
-                                        ),
-                                        const Icon(
-                                          Icons.visibility,
-                                          size: 18,
-                                        ),
-                                        const SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          '${articles[index].views} views',
-                                          style: const TextStyle(fontSize: 12),
-                                        ),
-                                      ],
-                                    )
                                   ],
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
-                    ),
-                  )
+                              );
+                            }),
+                          );
+                        } else if (spanshot.hasError) {
+                          return Text(spanshot.error.toString());
+                        } else {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                      }))
                   .toList()),
-        )
+        ),
       ],
     );
+  }
+
+  Future<List> getData(String type) async {
+    var url =
+        'https://newsapi.org/v2/top-headlines?q=${type}&in&apiKey=ee4a702063ae41aca93a1db458b481ab';
+    var response = await get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print("success");
+      // print(data["articles"]);
+      print(data["articles"].length);
+      return data["articles"];
+    } else {
+      throw Exception('Error fetching data');
+    }
   }
 }
 

@@ -1,19 +1,18 @@
-import 'dart:math';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:news/models/article_model.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/custom_tag.dart';
 
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/image_container.dart';
+import 'package:http/http.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
   static const routeName = "/";
+
   @override
   Widget build(BuildContext context) {
-    Article article = Article.articles[0];
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -28,14 +27,39 @@ class HomeScreen extends StatelessWidget {
       ),
       bottomNavigationBar: const BottomNavBar(index: 0),
       extendBodyBehindAppBar: true,
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          _NewsOfTheDay(article: article),
-          _BreakingNews(articles: Article.articles),
-        ],
+      body: FutureBuilder(
+        future: getData(),
+        builder: (context, spanshot) {
+          if (spanshot.hasData) {
+            return ListView(
+              padding: EdgeInsets.zero,
+              children: [
+                _NewsOfTheDay(article: spanshot.data?[0]),
+                _BreakingNews(articles: spanshot.data as List<dynamic>),
+              ],
+            );
+          } else if (spanshot.hasError) {
+            return Text(spanshot.error.toString());
+          } else {
+            return const Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
+  }
+
+  Future<List> getData() async {
+    var url =
+        'https://newsapi.org/v2/top-headlines?country=in&apiKey=ee4a702063ae41aca93a1db458b481ab';
+    var response = await get(Uri.parse(url));
+
+    if (response.statusCode == 200) {
+      var data = jsonDecode(response.body);
+      print("success");
+      return data["articles"];
+    } else {
+      throw Exception('Error fetching data');
+    }
   }
 }
 
@@ -44,7 +68,7 @@ class _BreakingNews extends StatelessWidget {
     Key? key,
     required this.articles,
   }) : super(key: key);
-  final List<Article> articles;
+  final List<dynamic> articles;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -74,7 +98,7 @@ class _BreakingNews extends StatelessWidget {
             height: 250,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
-              itemCount: articles.length,
+              itemCount: 10,
               itemBuilder: (context, index) {
                 return Container(
                   margin: const EdgeInsets.only(right: 10),
@@ -89,10 +113,11 @@ class _BreakingNews extends StatelessWidget {
                       children: [
                         ImageContainer(
                           width: MediaQuery.of(context).size.width * 0.5,
-                          imageUrl: articles[index].imageUrl,
+                          imageUrl: articles[index]["urlToImage"] ??
+                              "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019",
                         ),
                         Text(
-                          articles[index].title,
+                          articles[index]?["title"] ?? "Title",
                           maxLines: 2,
                           style:
                               Theme.of(context).textTheme.bodyLarge!.copyWith(
@@ -104,14 +129,14 @@ class _BreakingNews extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          '${DateTime.now().difference(articles[index].createdAt).inHours} hours ago',
+                          '${DateTime.now().difference(DateTime.parse(articles[index]["publishedAt"])).inHours} hours ago',
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(
                           height: 5,
                         ),
                         Text(
-                          'by ${articles[index].author}',
+                          'by ${articles[index]["author"] ?? "Author"}',
                           style: Theme.of(context).textTheme.bodySmall,
                         )
                       ],
@@ -133,13 +158,13 @@ class _NewsOfTheDay extends StatelessWidget {
     required this.article,
   });
 
-  final Article article;
+  final Map article;
 
   @override
   Widget build(BuildContext context) {
     return ImageContainer(
       height: MediaQuery.of(context).size.height * 0.45,
-      imageUrl: article.imageUrl,
+      imageUrl: article["urlToImage"],
       padding: const EdgeInsets.all(20),
       width: double.infinity,
       child: Column(
@@ -161,7 +186,7 @@ class _NewsOfTheDay extends StatelessWidget {
             height: 10,
           ),
           Text(
-            article.title,
+            article["title"],
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   fontWeight: FontWeight.bold,
                   height: 1.25,
