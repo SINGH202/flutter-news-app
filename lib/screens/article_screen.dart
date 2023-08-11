@@ -66,7 +66,7 @@ class _NewBody extends StatelessWidget {
                   width: 10,
                 ),
                 Text(
-                  article["author"],
+                  article["author"] ?? "Author",
                   style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: Colors.white,
                       ),
@@ -84,7 +84,7 @@ class _NewBody extends StatelessWidget {
                   width: 10,
                 ),
                 Text(
-                  '${DateTime.now().difference(DateTime.parse(article["publishedAt"]) ?? DateTime.now()).inHours} hours',
+                  '${DateTime.now().difference(DateTime.parse(article["publishedAt"] ?? DateTime.now())).inHours} hours',
                   style: Theme.of(context).textTheme.bodyMedium!,
                 )
               ]),

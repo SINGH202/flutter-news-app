@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:news/models/article_model.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/image_container.dart';
 import 'package:http/http.dart';
@@ -52,7 +51,6 @@ class _CategoryNews extends StatelessWidget {
   final List<String> tabs;
   @override
   Widget build(BuildContext context) {
-    final articles = Article.articles;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -74,7 +72,7 @@ class _CategoryNews extends StatelessWidget {
               .toList(),
         ),
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
+          height: MediaQuery.of(context).size.height * 0.60,
           child: TabBarView(
               children: tabs
                   .map((e) => FutureBuilder(
@@ -191,7 +189,7 @@ class _DiscoverNews extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.25,
+      height: MediaQuery.of(context).size.height * 0.15,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -210,33 +208,10 @@ class _DiscoverNews extends StatelessWidget {
             "News from all over the world",
             style: Theme.of(context).textTheme.bodySmall,
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            decoration: InputDecoration(
-              hintText: "Search",
-              fillColor: Colors.grey.shade200,
-              filled: true,
-              prefixIcon: const Icon(
-                Icons.search,
-                color: Colors.grey,
-              ),
-              suffixIcon: const RotatedBox(
-                quarterTurns: 1,
-                child: Icon(
-                  Icons.tune,
-                  color: Colors.grey,
-                ),
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(20.0),
-                borderSide: BorderSide.none,
-              ),
-            ),
-          )
+         
         ],
       ),
     );
   }
 }
+

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:news/screens/search_screen.dart';
 import 'screens/screens.dart';
 
 void main() {
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         DiscoverScreen.routeName: (context) => const DiscoverScreen(),
         ArticleScreen.routeName: (context) => const ArticleScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
+        SearchScreen.routeName: (context) => const SearchScreen(),
       },
     );
   }

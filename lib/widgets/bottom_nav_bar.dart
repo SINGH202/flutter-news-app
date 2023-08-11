@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news/screens/screens.dart';
+import 'package:news/screens/search_screen.dart';
 
 class BottomNavBar extends StatelessWidget {
   const BottomNavBar({
@@ -32,20 +33,20 @@ class BottomNavBar extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushNamed(context, DiscoverScreen.routeName);
                 },
-                icon: const Icon(Icons.search),
+                icon: const Icon(Icons.find_in_page),
               ),
-              label: "Search"),
+              label: "Discover"),
           BottomNavigationBarItem(
               icon: Container(
                 margin: const EdgeInsets.only(right: 50),
                 child: IconButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, SignUpScreen.routeName);
+                    Navigator.pushNamed(context, SearchScreen.routeName);
                   },
-                  icon: const Icon(Icons.person),
+                  icon: const Icon(Icons.search),
                 ),
               ),
-              label: "Profile"),
+              label: "Search"),
         ]);
   }
 }

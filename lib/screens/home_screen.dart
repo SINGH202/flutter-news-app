@@ -198,21 +198,30 @@ class _NewsOfTheDay extends StatelessWidget {
             style: TextButton.styleFrom(
               padding: EdgeInsets.zero,
             ),
-            child: Row(
-              children: [
-                Text(
-                  "Learn More",
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyLarge!
-                      .copyWith(color: Colors.white),
-                ),
-                const SizedBox(width: 10),
-                const Icon(
-                  Icons.arrow_right,
-                  color: Colors.white,
-                )
-              ],
+            child: InkWell(
+              onTap: () {
+                Navigator.pushNamed(
+                  context,
+                  ArticleScreen.routeName,
+                  arguments: article,
+                );
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "Learn More",
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(color: Colors.white),
+                  ),
+                  const SizedBox(width: 10),
+                  const Icon(
+                    Icons.arrow_right,
+                    color: Colors.white,
+                  )
+                ],
+              ),
             ),
           )
         ],
