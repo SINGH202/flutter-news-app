@@ -1,10 +1,10 @@
 import 'dart:convert';
+import 'package:http/http.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/image_container.dart';
-import 'package:http/http.dart';
 import '../widgets/bottom_nav_bar.dart';
 
 class DiscoverScreen extends StatelessWidget {
@@ -80,6 +80,7 @@ class _CategoryNews extends StatelessWidget {
                       builder: (context, spanshot) {
                         if (spanshot.hasData) {
                           return ListView.builder(
+                            padding: EdgeInsets.zero,
                             shrinkWrap: false,
                             scrollDirection: Axis.vertical,
                             itemCount: spanshot.data?.length,
@@ -208,10 +209,8 @@ class _DiscoverNews extends StatelessWidget {
             "News from all over the world",
             style: Theme.of(context).textTheme.bodySmall,
           ),
-         
         ],
       ),
     );
   }
 }
-
