@@ -55,7 +55,6 @@ class HomeScreen extends StatelessWidget {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print("success");
       return data["articles"];
     } else {
       throw Exception('Error fetching data');

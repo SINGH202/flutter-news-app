@@ -27,7 +27,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
         },
       );
       if (response.statusCode == 200) {
-        print("Success");
         var data = jsonDecode(response.body.toString());
         print(data["token"]);
       } else {

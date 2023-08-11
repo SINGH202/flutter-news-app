@@ -172,9 +172,6 @@ class _CategoryNews extends StatelessWidget {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print("success");
-      // print(data["articles"]);
-      print(data["articles"].length);
       return data["articles"];
     } else {
       throw Exception('Error fetching data');

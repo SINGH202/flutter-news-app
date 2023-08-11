@@ -105,8 +105,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
     if (response.statusCode == 200) {
       var data = jsonDecode(response.body);
-      print("success");
-      print(data["articles"].length);
       setState(() {
         _searchResults = data["articles"];
       });
