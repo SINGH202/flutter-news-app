@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/custom_tag.dart';
+import 'package:news/widgets/side_nav_bar.dart';
 
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/image_container.dart';
@@ -14,16 +15,11 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideNavbar(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.white,
-          ),
-        ),
+        iconTheme: const IconThemeData(color: Colors.white),
       ),
       bottomNavigationBar: const BottomNavBar(index: 0),
       extendBodyBehindAppBar: true,
@@ -50,7 +46,7 @@ class HomeScreen extends StatelessWidget {
 
   Future<List> getData() async {
     var url =
-        'https://newsapi.org/v2/top-headlines?country=in&apiKey=ee4a702063ae41aca93a1db458b481ab';
+        'https://newsapi.org/v2/top-headlines?country=in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {

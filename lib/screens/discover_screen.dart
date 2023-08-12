@@ -6,6 +6,7 @@ import 'package:flutter/rendering.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/image_container.dart';
 import '../widgets/bottom_nav_bar.dart';
+import '../widgets/side_nav_bar.dart';
 
 class DiscoverScreen extends StatelessWidget {
   const DiscoverScreen({Key? key}) : super(key: key);
@@ -18,16 +19,10 @@ class DiscoverScreen extends StatelessWidget {
       initialIndex: 0,
       length: tabs.length,
       child: Scaffold(
+        drawer: const SideNavbar(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.menu,
-              color: Colors.black,
-            ),
-          ),
         ),
         bottomNavigationBar: const BottomNavBar(index: 1),
         extendBodyBehindAppBar: true,
@@ -167,7 +162,7 @@ class _CategoryNews extends StatelessWidget {
 
   Future<List> getData(String type) async {
     var url =
-        'https://newsapi.org/v2/top-headlines?q=${type}&in&apiKey=ee4a702063ae41aca93a1db458b481ab';
+        'https://newsapi.org/v2/top-headlines?q=${type}&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {

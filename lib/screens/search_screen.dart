@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/image_container.dart';
+import '../widgets/side_nav_bar.dart';
 import 'screens.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -21,16 +22,10 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const SideNavbar(),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.black,
-          ),
-        ),
       ),
       bottomNavigationBar: const BottomNavBar(index: 2),
       extendBodyBehindAppBar: true,
@@ -100,7 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void getData(String type) async {
     var url =
-        'https://newsapi.org/v2/top-headlines?q=${type}&in&apiKey=ee4a702063ae41aca93a1db458b481ab';
+        'https://newsapi.org/v2/top-headlines?q=${type}&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {
