@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:news/screens/search_screen.dart';
 import 'screens/screens.dart';

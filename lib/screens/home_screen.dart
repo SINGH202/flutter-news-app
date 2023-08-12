@@ -149,9 +149,9 @@ class _BreakingNews extends StatelessWidget {
 
 class _NewsOfTheDay extends StatelessWidget {
   const _NewsOfTheDay({
-    super.key,
+    Key? key,
     required this.article,
-  });
+  }): super(key: key);
 
   final Map article;
 

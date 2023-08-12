@@ -35,9 +35,9 @@ class ArticleScreen extends StatelessWidget {
 
 class _NewBody extends StatelessWidget {
   const _NewBody({
-    super.key,
+    Key? key,
     required this.article,
-  });
+  }) : super(key: key);
 
   final Map article;
 
@@ -147,7 +147,7 @@ class _NewBody extends StatelessWidget {
 }
 
 class _NewsHeadline extends StatelessWidget {
-  const _NewsHeadline({super.key, required this.article});
+  const _NewsHeadline({Key? key, required this.article}) : super(key: key);
 
   final Map article;
 

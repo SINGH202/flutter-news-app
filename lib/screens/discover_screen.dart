@@ -1,8 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/image_container.dart';
 import '../widgets/bottom_nav_bar.dart';
@@ -162,7 +160,7 @@ class _CategoryNews extends StatelessWidget {
 
   Future<List> getData(String type) async {
     var url =
-        'https://newsapi.org/v2/top-headlines?q=${type}&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
+        'https://newsapi.org/v2/top-headlines?q=$type&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -176,8 +174,8 @@ class _CategoryNews extends StatelessWidget {
 
 class _DiscoverNews extends StatelessWidget {
   const _DiscoverNews({
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

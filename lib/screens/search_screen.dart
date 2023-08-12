@@ -95,7 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void getData(String type) async {
     var url =
-        'https://newsapi.org/v2/top-headlines?q=${type}&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
+        'https://newsapi.org/v2/top-headlines?q=$type&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -127,7 +127,7 @@ class NewsWidget extends StatelessWidget {
             height: 80,
             margin: const EdgeInsets.all(10),
             borderRadius: 5,
-            imageUrl: article?["urlToImage"] ??
+            imageUrl: article["urlToImage"] ??
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019",
           ),
           Expanded(
@@ -136,7 +136,7 @@ class NewsWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  article?["title"] ?? "Title",
+                  article["title"] ?? "Title",
                   maxLines: 2,
                   overflow: TextOverflow.clip,
                   style: Theme.of(context).textTheme.bodyLarge!.copyWith(
