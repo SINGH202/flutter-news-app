@@ -35,7 +35,14 @@ class HomeScreen extends StatelessWidget {
               ],
             );
           } else if (snapshot.hasError) {
-            return Center(child: Text(snapshot.error.toString()));
+            return Center(
+                child: Text(
+              snapshot.error.toString(),
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
+              ),
+            ));
           } else {
             return const Center(child: CircularProgressIndicator());
           }

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,10 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController searchController = TextEditingController();
+
   List _searchResults = [];
+  bool _isLoading = false;
+  bool _isError = false;
 
   @override
   Widget build(BuildContext context) {
@@ -58,8 +62,12 @@ class _SearchScreenState extends State<SearchScreen> {
                 TextFormField(
                   controller: searchController,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (event) =>
-                      getData(searchController.text.toString()),
+                  onFieldSubmitted: (event) => {
+                    getData(searchController.text.toString()),
+                    setState(() {
+                      _isLoading = true;
+                    })
+                  },
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     hintText: "Search",
@@ -68,6 +76,9 @@ class _SearchScreenState extends State<SearchScreen> {
                     suffixIcon: IconButton(
                       onPressed: () {
                         getData(searchController.text.toString());
+                        setState(() {
+                          _isLoading = true;
+                        });
                       },
                       icon: const Icon(
                         Icons.search,
@@ -85,11 +96,24 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.55,
-            child: ListView(
-              padding: EdgeInsets.zero,
-              children:
-                  _searchResults.map((e) => NewsWidget(article: e)).toList(),
-            ),
+            child: _isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : _searchResults.isEmpty
+                    ? const Center(
+                        child: Text(
+                          "Please search from above input field.",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      )
+                    : ListView(
+                        padding: EdgeInsets.zero,
+                        children: _searchResults
+                            .map((e) => NewsWidget(article: e))
+                            .toList(),
+                      ),
           ),
         ],
       ),
@@ -105,8 +129,12 @@ class _SearchScreenState extends State<SearchScreen> {
       var data = jsonDecode(response.body);
       setState(() {
         _searchResults = data["articles"];
+        _isLoading = false;
       });
     } else {
+      setState(() {
+        _isLoading = false;
+      });
       throw Exception('Error fetching data');
     }
   }
@@ -175,28 +203,3 @@ class NewsWidget extends StatelessWidget {
     );
   }
 }
-
-
-// SizedBox(
-//             height: MediaQuery.of(context).size.height * 0.55,
-//             child: FutureBuilder(
-//               future: () => getData("check"),
-//               builder: (context, snapshot) {
-//                 if (snapshot.hasData) {
-//                   // The data was fetched successfully.
-//                   return ListView(
-//                     padding: EdgeInsets.zero,
-//                     children: _searchResults
-//                         .map((e) => NewsWidget(article: e))
-//                         .toList(),
-//                   );
-//                 } else if (snapshot.hasError) {
-//                   // There was an error fetching the data.
-//                   return Center(child: Text(snapshot.error.toString()));
-//                 } else {
-//                   // The data is still loading.
-//                   return const Center(child: CircularProgressIndicator());
-//                 }
-//               },
-//             ),
-//           ),
