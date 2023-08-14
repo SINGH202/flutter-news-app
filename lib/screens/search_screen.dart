@@ -57,6 +57,9 @@ class _SearchScreenState extends State<SearchScreen> {
                 ),
                 TextFormField(
                   controller: searchController,
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (event) =>
+                      getData(searchController.text.toString()),
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                     hintText: "Search",
@@ -95,7 +98,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
   void getData(String type) async {
     var url =
-        'https://newsapi.org/v2/top-headlines?q=$type&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
+        'https://newsapi.org/v2/top-headlines?q=$type&in&apiKey=ee4a702063ae41aca93a1db458b481ab';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -172,3 +175,28 @@ class NewsWidget extends StatelessWidget {
     );
   }
 }
+
+
+// SizedBox(
+//             height: MediaQuery.of(context).size.height * 0.55,
+//             child: FutureBuilder(
+//               future: () => getData("check"),
+//               builder: (context, snapshot) {
+//                 if (snapshot.hasData) {
+//                   // The data was fetched successfully.
+//                   return ListView(
+//                     padding: EdgeInsets.zero,
+//                     children: _searchResults
+//                         .map((e) => NewsWidget(article: e))
+//                         .toList(),
+//                   );
+//                 } else if (snapshot.hasError) {
+//                   // There was an error fetching the data.
+//                   return Center(child: Text(snapshot.error.toString()));
+//                 } else {
+//                   // The data is still loading.
+//                   return const Center(child: CircularProgressIndicator());
+//                 }
+//               },
+//             ),
+//           ),

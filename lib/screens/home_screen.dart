@@ -25,17 +25,17 @@ class HomeScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: FutureBuilder(
         future: getData(),
-        builder: (context, spanshot) {
-          if (spanshot.hasData) {
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
             return ListView(
               padding: EdgeInsets.zero,
               children: [
-                _NewsOfTheDay(article: spanshot.data?[0]),
-                _BreakingNews(articles: spanshot.data as List<dynamic>),
+                _NewsOfTheDay(article: snapshot.data?[0]),
+                _BreakingNews(articles: snapshot.data as List<dynamic>),
               ],
             );
-          } else if (spanshot.hasError) {
-            return Text(spanshot.error.toString());
+          } else if (snapshot.hasError) {
+            return Center(child: Text(snapshot.error.toString()));
           } else {
             return const Center(child: CircularProgressIndicator());
           }
@@ -46,7 +46,7 @@ class HomeScreen extends StatelessWidget {
 
   Future<List> getData() async {
     var url =
-        'https://newsapi.org/v2/top-headlines?country=in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
+        'https://newsapi.org/v2/top-headlines?country=in&apiKey=ee4a702063ae41aca93a1db458b481ab';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {
@@ -151,7 +151,7 @@ class _NewsOfTheDay extends StatelessWidget {
   const _NewsOfTheDay({
     Key? key,
     required this.article,
-  }): super(key: key);
+  }) : super(key: key);
 
   final Map article;
 

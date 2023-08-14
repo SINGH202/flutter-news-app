@@ -70,19 +70,19 @@ class _CategoryNews extends StatelessWidget {
               children: tabs
                   .map((e) => FutureBuilder(
                       future: getData(e),
-                      builder: (context, spanshot) {
-                        if (spanshot.hasData) {
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
                           return ListView.builder(
                             padding: EdgeInsets.zero,
                             shrinkWrap: false,
                             scrollDirection: Axis.vertical,
-                            itemCount: spanshot.data?.length,
+                            itemCount: snapshot.data?.length,
                             itemBuilder: ((context, index) {
                               return InkWell(
                                 onTap: () {
                                   Navigator.pushNamed(
                                       context, ArticleScreen.routeName,
-                                      arguments: spanshot.data?[index]);
+                                      arguments: snapshot.data?[index]);
                                 },
                                 child: Row(
                                   children: [
@@ -91,7 +91,7 @@ class _CategoryNews extends StatelessWidget {
                                       height: 80,
                                       margin: const EdgeInsets.all(10),
                                       borderRadius: 5,
-                                      imageUrl: spanshot.data?[index]
+                                      imageUrl: snapshot.data?[index]
                                               ?["urlToImage"] ??
                                           "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019",
                                     ),
@@ -103,7 +103,7 @@ class _CategoryNews extends StatelessWidget {
                                             MainAxisAlignment.center,
                                         children: [
                                           Text(
-                                            spanshot.data?[index]?["title"] ??
+                                            snapshot.data?[index]?["title"] ??
                                                 "Title",
                                             maxLines: 2,
                                             overflow: TextOverflow.clip,
@@ -127,7 +127,7 @@ class _CategoryNews extends StatelessWidget {
                                                 width: 5,
                                               ),
                                               Text(
-                                                '${DateTime.now().difference(DateTime.parse(spanshot.data?[index]?["publishedAt"])).inHours} hours ago',
+                                                '${DateTime.now().difference(DateTime.parse(snapshot.data?[index]?["publishedAt"])).inHours} hours ago',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall,
@@ -145,8 +145,8 @@ class _CategoryNews extends StatelessWidget {
                               );
                             }),
                           );
-                        } else if (spanshot.hasError) {
-                          return Text(spanshot.error.toString());
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text(snapshot.error.toString()));
                         } else {
                           return const Center(
                               child: CircularProgressIndicator());
@@ -160,7 +160,7 @@ class _CategoryNews extends StatelessWidget {
 
   Future<List> getData(String type) async {
     var url =
-        'https://newsapi.org/v2/top-headlines?q=$type&in&apiKey=16c6985c8c9541eabafd1e36f35537f8';
+        'https://newsapi.org/v2/top-headlines?q=$type&in&apiKey=ee4a702063ae41aca93a1db458b481ab';
     var response = await get(Uri.parse(url));
 
     if (response.statusCode == 200) {
