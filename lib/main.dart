@@ -15,9 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Flutter News App",
       theme: ThemeData(primarySwatch: Colors.grey),
-      initialRoute: "/",
+      initialRoute: "/splash-screen",
       routes: {
         HomeScreen.routeName: (context) => const HomeScreen(),
+        SplashScreen.routeName: (context) => const SplashScreen(),
         DiscoverScreen.routeName: (context) => const DiscoverScreen(),
         ArticleScreen.routeName: (context) => const ArticleScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
