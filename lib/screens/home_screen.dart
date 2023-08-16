@@ -166,7 +166,8 @@ class _NewsOfTheDay extends StatelessWidget {
   Widget build(BuildContext context) {
     return ImageContainer(
       height: MediaQuery.of(context).size.height * 0.45,
-      imageUrl: article["urlToImage"],
+      imageUrl: article["urlToImage"] ??
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/660px-No-Image-Placeholder.svg.png?20200912122019",
       padding: const EdgeInsets.all(20),
       width: double.infinity,
       child: Column(
@@ -188,7 +189,7 @@ class _NewsOfTheDay extends StatelessWidget {
             height: 10,
           ),
           Text(
-            article["title"],
+            article["title"] ?? "",
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   fontWeight: FontWeight.bold,
                   height: 1.25,

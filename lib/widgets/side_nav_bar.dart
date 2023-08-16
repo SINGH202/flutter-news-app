@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:news/screens/saved_articles_screen.dart';
 
 class SideNavbar extends StatelessWidget {
   const SideNavbar({super.key});
@@ -39,7 +43,9 @@ class SideNavbar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.bookmark),
             title: const Text("Saved news"),
-            onTap: () {},
+            onTap: () {
+              Navigator.pushNamed(context, SavedArticles.routeName);
+            },
           ),
           ListTile(
             leading: const Icon(Icons.share),
@@ -54,7 +60,9 @@ class SideNavbar extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.exit_to_app),
             title: const Text("Sign out"),
-            onTap: () {},
+            onTap: () {
+              exit(0);
+            },
           ),
         ],
       ),

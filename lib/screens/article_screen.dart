@@ -18,6 +18,22 @@ class ArticleScreen extends StatelessWidget {
           iconTheme: const IconThemeData(color: Colors.white),
           backgroundColor: Colors.transparent,
           elevation: 0,
+          actions: [
+            IconButton(
+              padding: const EdgeInsets.only(right: 20),
+              onPressed: () {},
+              icon: Center(
+                child: IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    // Icons.bookmark_added,
+                    Icons.bookmark_add_outlined,
+                    size: 32,
+                  ),
+                ),
+              ),
+            )
+          ],
         ),
         extendBodyBehindAppBar: true,
         body: ListView(
@@ -88,26 +104,13 @@ class _NewBody extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium!,
                 )
               ]),
-              // CustomTag(children: [
-              //   const Icon(
-              //     Icons.remove_red_eye,
-              //     color: Colors.grey,
-              //   ),
-              //   const SizedBox(
-              //     width: 10,
-              //   ),
-              //   Text(
-              //     '${article.views}',
-              //     style: Theme.of(context).textTheme.bodyMedium!,
-              //   )
-              // ]),
             ],
           ),
           const SizedBox(
             height: 20,
           ),
           Text(
-            article["title"] ?? "Title",
+            article["title"] ?? "",
             style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -116,7 +119,7 @@ class _NewBody extends StatelessWidget {
             height: 20,
           ),
           Text(
-            article["content"] ?? "Content",
+            article["content"] ?? "",
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   height: 1.5,
                 ),

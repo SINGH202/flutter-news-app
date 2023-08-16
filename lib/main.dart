@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news/screens/saved_articles_screen.dart';
 import 'package:news/screens/search_screen.dart';
 import 'screens/screens.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         ArticleScreen.routeName: (context) => const ArticleScreen(),
         SignUpScreen.routeName: (context) => const SignUpScreen(),
         SearchScreen.routeName: (context) => const SearchScreen(),
+        SavedArticles.routeName: (context) => const SavedArticles()
       },
     );
   }
