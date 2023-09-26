@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:news/screens/saved_articles_screen.dart';
 
 class SideNavbar extends StatelessWidget {

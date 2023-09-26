@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:news/widgets/bottom_nav_bar.dart';
 import 'package:http/http.dart';

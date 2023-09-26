@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:http/http.dart';
 import 'package:flutter/material.dart';
-
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/image_container.dart';
 import '../widgets/side_nav_bar.dart';

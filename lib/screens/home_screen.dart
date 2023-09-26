@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:news/screens/screens.dart';
 import 'package:news/widgets/custom_tag.dart';
 import 'package:news/widgets/side_nav_bar.dart';
-
 import '../widgets/bottom_nav_bar.dart';
 import '../widgets/image_container.dart';
 import 'package:http/http.dart';
